@@ -7,3 +7,9 @@
 /invidious
 /sentry
 /config/config.yml
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
