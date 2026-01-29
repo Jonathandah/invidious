@@ -2,9 +2,8 @@ services:
   invidious:
     image: quay.io/invidious/invidious:latest
     # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
+    container_name: invidious
     restart: unless-stopped
-    ports:
-      - ${LOCAL_SUBNET:?err}:3000:3000
     environment:
       # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
       INVIDIOUS_CONFIG: |
@@ -35,11 +34,10 @@ services:
   companion:
     image: quay.io/invidious/invidious-companion:latest
     # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+    container_name: invidious-companion
     environment:
       - SERVER_SECRET_KEY=${INV_COMPANION_KEY:?err}
     restart: unless-stopped
-    ports:
-      - ${LOCAL_SUBNET:?err}:8282:8282
     logging:
       options:
         max-size: "1G"
@@ -52,9 +50,11 @@ services:
       - companioncache:/var/tmp/youtubei.js:rw
     security_opt:
       - no-new-privileges:true
+    network_mode: "container:gluetun-global"
 
   invidious-db:
     image: docker.io/library/postgres:14
+    container_name: invidious-db
     restart: unless-stopped
     volumes:
       - postgresdata:/var/lib/postgresql/data
@@ -75,5 +75,5 @@ volumes:
   companioncache:
 
 networks:
-  gluetun_network:
+  gluetun-global-network:
     external: true
