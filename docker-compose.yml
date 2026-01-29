@@ -4,7 +4,7 @@ services:
     # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - ${LOCAL_SUBNET:?err}:3000:3000
     environment:
       # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
       INVIDIOUS_CONFIG: |
@@ -39,7 +39,7 @@ services:
       - SERVER_SECRET_KEY=${INV_COMPANION_KEY:?err}
     restart: unless-stopped
     ports:
-      - 8282:8282
+      - ${LOCAL_SUBNET:?err}:8282:8282
     logging:
       options:
         max-size: "1G"
