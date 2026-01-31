@@ -18,7 +18,14 @@ services:
         - private_url: "http://127.0.0.1:8282/companion"
         invidious_companion_key: ${INV_COMPANION_KEY}
         hmac_key: ${INV_HMAC_KEY:?err}
-        dark_mode: ${INV_INTERFACE_DARK_MODE}
+        banner: "${INV_BANNER_MSG}"
+        default_user_preference:
+          captions: ["","English","English (auto-generated)"]
+          dark_mode: "dark"
+          feed_menu: ["Trending", "Subscriptions", "Playlists", "Search"]
+          locale: "sv"
+          region: "SV"
+          default_home: "Subscriptions"
     healthcheck:
       test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/stats || exit 1
       interval: 30s
