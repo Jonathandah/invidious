@@ -4,7 +4,7 @@ Fork of the Invidious project: <https://github.com/iv-org/invidious>
 
 ## Background
 
-To protect my privacy I decided use invidious but to avoid overloading the public instances I decided to self host my won instance.
+To protect my privacy I decided use invidious but to avoid overloading the public instances I decided to self host my own instance.
 
 Public instances can be found here <https://redirect.invidious.io/>
 
