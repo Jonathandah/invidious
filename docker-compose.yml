@@ -1,6 +1,9 @@
 services:
   invidious:
-    image: quay.io/invidious/invidious:latest
+    image: invidious-fork:latest
+    build:
+      context: build
+      dockerfile: docker/Dockerfile
     container_name: invidious
     restart: unless-stopped
     environment:
