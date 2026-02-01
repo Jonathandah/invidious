@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd build
+cd build || exit
 
 git checkout .
 git restore .
