@@ -19,6 +19,7 @@ services:
         invidious_companion_key: ${INV_COMPANION_KEY}
         hmac_key: ${INV_HMAC_KEY:?err}
         banner: "${INV_BANNER_MSG}"
+        modified_source_code_url: "https://github.com/Jonathandah/invidious"
         default_user_preference:
           captions: ["","English","English (auto-generated)"]
           dark_mode: "dark"
