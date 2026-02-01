@@ -1,11 +1,12 @@
 services:
   invidious:
-    image: quay.io/invidious/invidious:latest
-    # image: quay.io/invidious/invidious:latest-arm64 # ARM64/AArch64 devices
+    image: invidious-fork:latest
+    build:
+      context: build
+      dockerfile: docker/Dockerfile
     container_name: invidious
     restart: unless-stopped
     environment:
-      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
       INVIDIOUS_CONFIG: |
         db:
           dbname: invidious
@@ -68,7 +69,7 @@ services:
     volumes:
       - postgresdata:/var/lib/postgresql/data
       - ./config/sql:/config/sql
-      - ./docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
     environment:
       POSTGRES_DB: invidious
       POSTGRES_USER: ${INV_DB_USER}
