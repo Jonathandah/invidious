@@ -67,7 +67,7 @@ services:
     container_name: invidious-db
     restart: unless-stopped
     volumes:
-      - postgresdata:/var/lib/postgresql/data
+      - ${FOLDER_FOR_DATA}/invidious/postgresdata:/var/lib/postgresql/data 
       - ./config/sql:/config/sql
       - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
     environment:
