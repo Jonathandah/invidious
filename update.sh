@@ -7,4 +7,10 @@ git restore .
 git reset
 git clean -fd
 
+# Switch to master branch before pulling to avoid detached HEAD issues
+git checkout master
 git pull --recurse-submodules
+
+# Apply git configuration fix after update to ensure Docker builds work
+cd ..
+./fix-git-config.sh
