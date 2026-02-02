@@ -1,0 +1,96 @@
+From 09ec427c7bf7e4ff938b3e7fec13aea8b0e8e7c9 Mon Sep 17 00:00:00 2001
+From: "jonathan.md" <github.com.starship007@passmail.net>
+Date: Mon, 2 Feb 2026 21:39:37 +0100
+Subject: [PATCH] apply meta args
+
+---
+ docker/Dockerfile | 30 +++++++++++++++++-------------
+ src/invidious.cr  | 10 +++++-----
+ 2 files changed, 22 insertions(+), 18 deletions(-)
+
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index e2d30364..9561e64b 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -26,6 +26,10 @@ RUN apk add --no-cache sqlite-static yaml-static
+ RUN apk del openssl-dev openssl-libs-static
+ 
+ ARG release
++ARG CURRENT_COMMIT
++ARG CURRENT_BRANCH  
++ARG CURRENT_VERSION
++ARG CURRENT_TAG
+ 
+ WORKDIR /invidious
+ COPY ./shard.yml ./shard.yml
+@@ -43,29 +47,29 @@ COPY ./assets/ ./assets/
+ COPY ./videojs-dependencies.yml ./videojs-dependencies.yml
+ 
+ RUN crystal spec --warnings all \
+-    --link-flags "-lxml2 -llzma"    
++  --link-flags "-lxml2 -llzma"    
+ 
+ ARG OPENSSL_VERSION
+ COPY --from=openssl-builder /openssl-${OPENSSL_VERSION} /openssl-${OPENSSL_VERSION}
+ 
+ RUN --mount=type=cache,target=/root/.cache/crystal if [[ "${release}" == 1 ]] ; then \
+-        PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
+-        crystal build ./src/invidious.cr \
+-        --release \
+-        --static --warnings all \
+-        --link-flags "-lxml2 -llzma"; \
+-    else \
+-        PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
+-        crystal build ./src/invidious.cr \
+-        --static --warnings all \
+-        --link-flags "-lxml2 -llzma"; \
+-    fi
++  PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
++  crystal build ./src/invidious.cr \
++  --release \
++  --static --warnings all \
++  --link-flags "-lxml2 -llzma"; \
++  else \
++  PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
++  crystal build ./src/invidious.cr \
++  --static --warnings all \
++  --link-flags "-lxml2 -llzma"; \
++  fi
+ 
+ FROM alpine:3.23
+ RUN apk add --no-cache rsvg-convert ttf-opensans tini tzdata
+ WORKDIR /invidious
+ RUN addgroup -g 1000 -S invidious && \
+-    adduser -u 1000 -S invidious -G invidious
++  adduser -u 1000 -S invidious -G invidious
+ COPY --chown=invidious ./config/config.* ./config/
+ RUN mv -n config/config.example.yml config/config.yml
+ RUN sed -i 's/host: \(127.0.0.1\|localhost\)/host: invidious-db/' config/config.yml
+diff --git a/src/invidious.cr b/src/invidious.cr
+index ec518453..4113d1d6 100644
+--- a/src/invidious.cr
++++ b/src/invidious.cr
+@@ -81,15 +81,15 @@ REQUEST_HEADERS_WHITELIST  = {"accept", "accept-encoding", "cache-control", "con
+ RESPONSE_HEADERS_BLACKLIST = {"access-control-allow-origin", "alt-svc", "server", "cross-origin-opener-policy-report-only", "report-to", "cross-origin", "timing-allow-origin", "cross-origin-resource-policy"}
+ HTTP_CHUNK_SIZE            = 10485760 # ~10MB
+ 
+-CURRENT_BRANCH  = {{ "#{`git branch | sed -n '/* /s///p'`.strip}" }}
+-CURRENT_COMMIT  = {{ "#{`git rev-list HEAD --max-count=1 --abbrev-commit`.strip}" }}
+-CURRENT_VERSION = {{ "#{`git log -1 --format=%ci | awk '{print $1}' | sed s/-/./g`.strip}" }}
+-CURRENT_TAG     = {{ "#{`git tag --points-at HEAD`.strip}" }}
++CURRENT_BRANCH  = {{ env("CURRENT_BRANCH") || "unknown" }}
++CURRENT_COMMIT  = {{ env("CURRENT_COMMIT") || "unknown" }}
++CURRENT_VERSION = {{ env("CURRENT_VERSION") || "unknown" }}
++CURRENT_TAG     = {{ env("CURRENT_TAG") || "unknown" }}
+ 
+ # This is used to determine the `?v=` on the end of file URLs (for cache busting). We
+ # only need to expire modified assets, so we can use this to find the last commit that changes
+ # any assets
+-ASSET_COMMIT = {{ "#{`git rev-list HEAD --max-count=1 --abbrev-commit -- assets`.strip}" }}
++ASSET_COMMIT = {{ env("CURRENT_COMMIT") || "unknown" }}
+ 
+ SOFTWARE = {
+   "name"    => "invidious",
+-- 
+2.52.0
+
