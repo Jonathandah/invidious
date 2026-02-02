@@ -1,6 +1,8 @@
-# Self hosted instance of Invidious
+# Patch based instance of Invidious
 
 Fork of the Invidious project: <https://github.com/iv-org/invidious>
+
+Heavily inspired by the Nerdvpns patched based invidious instance: <https://git.nerdvpn.de/NerdVPN.de/invidious>
 
 ## Background
 
@@ -31,10 +33,29 @@ Don't forget to replace DB username and password in the .env file to your liking
 
 1. Setup your gluetun container (see guide: <https://docs.invidious.io/gluetun/>) separately or in you docker compose though I'm running it separately due to other services using the same gluetun network. (This step can be ignored if you don't care about running invidious inside through a vpn)
 
-2. Make sure your gluetun container is running (if you are using it, and/or if it's in a separate compose file). The run this project with:
+2. Make sure your gluetun container is running (if you are using it, and/or if it's in a separate compose file).
+
+3. Apply patches and build docker image:
+
+```sh
+./patch.sh # applies patches in ./patches/**
+./build.sh release # or ./build.sh development for development build
+```
+
+1. Run docker compose with your latest built image:
 
 ```sh
 docker compose up -d
+```
+
+## Update
+
+To get the latest changes from the original invidious repo and re-apply the patches run:
+
+```sh
+./update.sh
+./patch.sh
+./build.sh release # or ./build.sh development for development build
 ```
 
 ## Warning
