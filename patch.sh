@@ -2,9 +2,8 @@
 
 cd build || exit
 
-PATCHES=../patches/*.patch
-
-for p in $PATCHES; do
+# Sort patches numerically to apply in order
+for p in $(ls ../patches/*.patch | sort -V); do
   echo "applying ${p}..."
   git apply --check $p && git apply $p
 done
