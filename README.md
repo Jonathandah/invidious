@@ -24,7 +24,7 @@ To get started make sure to read the official documentation at <https://docs.inv
 touch .env && cp .env.example .env
 ```
 
-1. Generate secret keys for hmac key and companion key by running:
+2. Generate secret keys for hmac key and companion key by running:
 
 ```sh
 # For INV_HMAC_KEY
@@ -35,18 +35,18 @@ pwgen 16 1
 
 Don't forget to replace DB username and password in the .env file to your liking. Remember that the first time you run docker compose up the username and password will be set for the database so if you decide to change it you'll have to remove your volumes first.
 
-1. Setup your gluetun container (see guide: <https://docs.invidious.io/gluetun/>) separately or in you docker compose though I'm running it separately due to other services using the same gluetun network. (This step can be ignored if you don't care about running invidious inside through a vpn)
+3. Setup your gluetun container (see guide: <https://docs.invidious.io/gluetun/>) separately or in you docker compose though I'm running it separately due to other services using the same gluetun network. (This step can be ignored if you don't care about running invidious inside through a vpn)
 
-2. Make sure your gluetun container is running (if you are using it, and/or if it's in a separate compose file).
+4. Make sure your gluetun container is running (if you are using it, and/or if it's in a separate compose file).
 
-3. Apply patches and build docker image:
+5. Apply patches and build docker image:
 
 ```sh
 ./patch.sh # applies patches in ./patches/**
 ./build.sh release # or ./build.sh development for development build
 ```
 
-1. Run docker compose with your latest built image:
+6. Run docker compose with your latest built image:
 
 ```sh
 docker compose up -d
