@@ -1,5 +1,9 @@
 # Patch based instance of Invidious
 
+<img src="./screenshots/screenshot1.png" alt="player" width="326"/>
+<img src="./screenshots/screenshot2.png" alt="videos" width="400"/>
+<br/>
+<br/>
 Fork of the Invidious project: <https://github.com/iv-org/invidious>
 
 Heavily inspired by the Nerdvpns patched based invidious instance: <https://git.nerdvpn.de/NerdVPN.de/invidious>
