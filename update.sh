@@ -11,6 +11,3 @@ git clean -fd
 git checkout master
 git pull --recurse-submodules
 
-# Apply git configuration fix after update to ensure Docker builds work
-cd ..
-./fix-git-config.sh
