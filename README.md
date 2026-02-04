@@ -6,7 +6,8 @@
 </div>
 
 <br/>
-Fork of the Invidious project: <https://github.com/iv-org/invidious>
+
+Fork of the Invidious project: https://github.com/iv-org/invidious
 
 Heavily inspired by the Nerdvpns patched based invidious instance: <https://git.nerdvpn.de/NerdVPN.de/invidious>
 
