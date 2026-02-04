@@ -1,8 +1,10 @@
 # Patch based instance of Invidious
 
-<img src="./screenshots/screenshot1.png" alt="player" width="326"/>
-<img src="./screenshots/screenshot2.png" alt="videos" width="400"/>
-<br/>
+<div>
+  <img src="./screenshots/screenshot1.png" alt="player" width="326"/>
+  <img src="./screenshots/screenshot2.png" alt="videos" width="400"/>
+</div>
+
 <br/>
 Fork of the Invidious project: <https://github.com/iv-org/invidious>
 
@@ -10,8 +12,9 @@ Heavily inspired by the Nerdvpns patched based invidious instance: <https://git.
 
 Public instances can be found here: <https://redirect.invidious.io/>
 
-## Notice 
-This project is very new and will probably change alot.
+## Warning
+
+There is no guarantees that this project will run in your environment. And this project may stop working at any time due to changes in Youtube or invidious itself or just me breaking it.
 
 ## Background
 
@@ -65,9 +68,7 @@ To get the latest changes from the original invidious repo and re-apply the patc
 ./build.sh release # or ./build.sh development for development build
 ```
 
-## Warning
 
-There is no guarantees that this project will run in your environment. And this project may stop working at any time due to changes in Youtube or invidious itself or just me breaking it.
 
 ## Honorable mentions
 
