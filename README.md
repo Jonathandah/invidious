@@ -7,7 +7,7 @@
 
 <br/>
 
-Fork of the Invidious project: https://github.com/iv-org/invidious
+Fork of the Invidious project: <https://github.com/iv-org/invidious>
 
 Heavily inspired by the Nerdvpns patched based invidious instance: <https://git.nerdvpn.de/NerdVPN.de/invidious>
 
@@ -19,57 +19,58 @@ There is no guarantees that this project will run in your environment. And this 
 
 ## Background
 
-To protect my privacy I decided use invidious but to avoid overloading the public instances I decided to self host my own instance.
+To protect my privacy I decided use Invidious but to avoid overloading the public instances I decided to self host my own instance.
 
 ## Get started
 
-To get started make sure to read the official documentation at: <https://docs.invidious.io/>. IMPORTANT Invidious do not proxy videos by default, so if your afraid of revealing your real IP an easy solutoion is to route the traffic via Gluetun. Check this guide on how to run Invidious with Gluetun: <https://docs.invidious.io/gluetun/>. The Gluetun is a great project which can be found here: <https://github.com/qdm12/gluetun>.
+To get started make sure to read the official documentation at: <https://docs.invidious.io/>. IMPORTANT Invidious do not proxy videos by default, so if your afraid of revealing your real IP an easy solution is to route the traffic via Gluetun. Check this guide on how to run Invidious with Gluetun: <https://docs.invidious.io/gluetun/>. The Gluetun is a great project which can be found here: <https://github.com/qdm12/gluetun>.
 
-1. Copy the `.env.example` to `.env`:
+**Initialize the project** (creates .env file and generates secret keys):
 
 ```sh
-touch .env && cp .env.example .env
+make init
 ```
 
-2. Generate secret keys for hmac key and companion key by running:
+> [!IMPORTANT]
+> Don't forget to replace DB username and password in the .env file to your liking. Remember that the first time you run docker compose up the username and password will be set for the database so if you decide to change it you'll have to remove your volumes first.
+
+**Build the Docker image**:
 
 ```sh
-# For INV_HMAC_KEY
-pwgen 20 1
-# For INV_COMPANION_KEY
-pwgen 16 1
+make build-image ENV=release    # for production
+# or
+make build-image ENV=development # for development
 ```
 
-Don't forget to replace DB username and password in the `.env` file to your liking. Remember that the first time you run docker compose up the username and password will be set for the database so if you decide to change it you'll have to remove your volumes first.
-
-3. Setup your Gluetun container separately or in you docker compose. I'm running it separately due to other services using the same Gluetun network. (This step can be ignored if you don't care about routing your traffic via Gluetun)
-
-4. Make sure your Gluetun container is running (if you are using it, and/or if it's in a separate compose file).
-
-5. Apply patches and build docker image:
+**Start the containers**:
 
 ```sh
-./patch.sh # applies patches in ./patches/**
-./build.sh release # or ./build.sh development for development build
-```
-
-6. Run docker compose with your latest built image:
-
-```sh
-docker compose up -d
+make start
 ```
 
 ## Update
 
-To get the latest changes from the original invidious repo and re-apply the patches run:
-
 ```sh
-./update.sh
-./patch.sh
-./build.sh release # or ./build.sh development for development build
+make update
+make build-image ENV=release
+make start
 ```
 
+## Available Make Commands
 
+| Command                                       | Description                                       |
+| --------------------------------------------- | ------------------------------------------------- |
+| `make init`                                   | Initialize project (creates .env, generates keys) |
+| `make build-image ENV=[development\|release]` | Build Docker image with patches applied           |
+| `make start`                                  | Start Docker containers in background             |
+| `make update`                                 | Update submodules from upstream                   |
+| `make create-patch`                           | Create patch from changes in submodules           |
+| `make create-network`                         | Create Gluetun network                            |
+| `make init-db`                                | Initialize database                               |
+| `make deploy-database`                        | Deploy database                                   |
+| `make message CONTENT="your message"`         | Update banner message                             |
+| `make clear-message`                          | Clear banner message                              |
+| `make docs`                                   | Show documentation links                          |
 
 ## Honorable mentions
 
