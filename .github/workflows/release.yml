@@ -17,9 +17,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Version ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           body: |
             🎉 Auto-generated release: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
