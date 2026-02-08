@@ -29,6 +29,7 @@ Before you get started make sure you have red the official documentation: <https
 > Invidious do not proxy videos by default, so if your afraid of revealing your real IP an easy solution is to route the traffic via Gluetun.
 >
 > Check this guide on how to run Invidious with Gluetun: <https://docs.invidious.io/gluetun/>.
+>
 > The project can be found here: <https://github.com/qdm12/gluetun>.
 
 **Initialize the project** (creates .env file and generates secret keys):
