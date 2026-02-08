@@ -23,7 +23,10 @@ To protect my privacy I decided use Invidious but to avoid overloading the publi
 
 ## Get started
 
-To get started make sure to read the official documentation at: <https://docs.invidious.io/>. IMPORTANT Invidious do not proxy videos by default, so if your afraid of revealing your real IP an easy solution is to route the traffic via Gluetun. Check this guide on how to run Invidious with Gluetun: <https://docs.invidious.io/gluetun/>. The Gluetun is a great project which can be found here: <https://github.com/qdm12/gluetun>.
+Before you get started make sure you have red the official documentation: <https://docs.invidious.io/>.
+
+> [!CAUTION]
+> Invidious do not proxy videos by default, so if your afraid of revealing your real IP an easy solution is to route the traffic via Gluetun. Check this guide on how to run Invidious with Gluetun: <https://docs.invidious.io/gluetun/>. The Gluetun is a great project which can be found here: <https://github.com/qdm12/gluetun>.
 
 **Initialize the project** (creates .env file and generates secret keys):
 
@@ -34,7 +37,7 @@ make init
 > [!IMPORTANT]
 > Don't forget to replace DB username and password in the .env file to your liking. Remember that the first time you run docker compose up the username and password will be set for the database so if you decide to change it you'll have to remove your volumes first.
 
-**Build the Docker image**:
+**Build the docker image**:
 
 ```sh
 make build-image ENV=release    # for production
