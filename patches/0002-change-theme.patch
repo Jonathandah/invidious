@@ -1,14 +1,14 @@
-From 9939661090a640f2110b0f7920b58c62fd1c437d Mon Sep 17 00:00:00 2001
-From: "jonathan.md" <github.com.starship007@passmail.net>
-Date: Tue, 3 Feb 2026 20:13:40 +0100
+From 1583345082d6bc8fff7ec1322a5bfb7814bd87f8 Mon Sep 17 00:00:00 2001
+From: jonathan <github.com.starship007@passmail.net>
+Date: Sun, 22 Mar 2026 10:06:41 +0100
 Subject: [PATCH] change theme
 
 ---
- assets/css/default.css | 1710 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 1386 insertions(+), 324 deletions(-)
+ assets/css/default.css | 1714 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 1388 insertions(+), 326 deletions(-)
 
 diff --git a/assets/css/default.css b/assets/css/default.css
-index 78ef7a60..f763ff04 100644
+index ff07bdb4..b59ae28e 100644
 --- a/assets/css/default.css
 +++ b/assets/css/default.css
 @@ -1,50 +1,49 @@
@@ -76,7 +76,7 @@ index 78ef7a60..f763ff04 100644
  .flex-left {
    display: flex;
    flex: 1 1 auto;
-@@ -57,37 +56,30 @@ body {
+@@ -57,24 +56,19 @@ body {
    flex-flow: row nowrap;
    justify-content: flex-end;
  }
@@ -98,6 +98,12 @@ index 78ef7a60..f763ff04 100644
    height: auto;
  }
 -
+ .channel-profile > .channel-name-pronouns {
+     display: inline-block;
+ }
+@@ -86,18 +80,16 @@ body {
+ }
+ 
  body a.channel-owner {
 -  background-color: #008bec;
 -  color: #fff;
@@ -116,7 +122,7 @@ index 78ef7a60..f763ff04 100644
  .creator-heart {
    display: inline-block;
    position: relative;
-@@ -95,20 +87,17 @@ body a.channel-owner {
+@@ -105,20 +97,17 @@ body a.channel-owner {
    height: 16px;
    border: 2px none;
  }
@@ -137,7 +143,7 @@ index 78ef7a60..f763ff04 100644
  .creator-heart-small-container {
    display: block;
    position: relative;
-@@ -116,97 +105,202 @@ body a.channel-owner {
+@@ -126,97 +115,202 @@ body a.channel-owner {
    height: 13px;
    color: rgb(255, 0, 0);
  }
@@ -365,7 +371,7 @@ index 78ef7a60..f763ff04 100644
  div.watched-overlay {
    z-index: 50;
    position: absolute;
-@@ -214,18 +308,16 @@ div.watched-overlay {
+@@ -224,18 +318,16 @@ div.watched-overlay {
    left: 0;
    right: 0;
    bottom: 0;
@@ -386,7 +392,7 @@ index 78ef7a60..f763ff04 100644
  div.thumbnail > .top-left-overlay,
  div.thumbnail > .bottom-right-overlay {
    z-index: 100;
-@@ -234,81 +326,73 @@ div.thumbnail > .bottom-right-overlay {
+@@ -244,81 +336,73 @@ div.thumbnail > .bottom-right-overlay {
    margin: 0;
    font-size: 16px;
  }
@@ -496,7 +502,7 @@ index 78ef7a60..f763ff04 100644
  /* https://stackoverflow.com/a/55170420 */
  input[type="search"]::-webkit-search-cancel-button {
    -webkit-appearance: none;
-@@ -317,107 +401,120 @@ input[type="search"]::-webkit-search-cancel-button {
+@@ -327,112 +411,125 @@ input[type="search"]::-webkit-search-cancel-button {
    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAn0lEQVR42u3UMQrDMBBEUZ9WfQqDmm22EaTyjRMHAlM5K+Y7lb0wnUZPIKHlnutOa+25Z4D++MRBX98MD1V/trSppLKHqj9TTBWKcoUqffbUcbBBEhTjBOV4ja4l4OIAZThEOV6jHO8ARXD+gPPvKMABinGOrnu6gTNUawrcQKNCAQ7QeTxORzle3+sDfjJpPCqhJh7GixZq4rHcc9l5A9qZ+WeBhgEuAAAAAElFTkSuQmCC);
    background-size: 14px;
  }
@@ -631,8 +637,6 @@ index 78ef7a60..f763ff04 100644
 -
 -p.channel-name { margin: 0; overflow-wrap: anywhere;}
 -p.video-data   { margin: 0; font-weight: bold; font-size: 80%; }
--.channel-profile > .channel-name { overflow-wrap: anywhere;}
--
 -
 +.video-card-row {
 +  margin: 15px 0;
@@ -640,6 +644,13 @@ index 78ef7a60..f763ff04 100644
 +p.channel-name {
 +  margin: 0;
 +}
+ .channel-profile > .channel-name,
+ .channel-profile > .channel-name-pronouns >  .channel-name 
+ {
+   overflow-wrap: anywhere;
+ }
+-
+-
 +p.video-data {
 +  margin: 0;
 +  font-weight: bold;
@@ -657,7 +668,7 @@ index 78ef7a60..f763ff04 100644
  /*
   * We don't want the top and bottom margin on the post page.
   */
-@@ -425,13 +522,11 @@ p.video-data   { margin: 0; font-weight: bold; font-size: 80%; }
+@@ -440,13 +537,11 @@ p.video-data   { margin: 0; font-weight: bold; font-size: 80%; }
    margin-bottom: 0;
    margin-top: 0;
  }
@@ -671,7 +682,7 @@ index 78ef7a60..f763ff04 100644
  .video-iframe {
    position: absolute;
    top: 0;
-@@ -440,57 +535,48 @@ p.video-data   { margin: 0; font-weight: bold; font-size: 80%; }
+@@ -455,57 +550,48 @@ p.video-data   { margin: 0; font-weight: bold; font-size: 80%; }
    height: 100%;
    border: none;
  }
@@ -742,7 +753,7 @@ index 78ef7a60..f763ff04 100644
  @keyframes spin {
    0% {
      transform: rotate(0deg);
-@@ -499,392 +585,1368 @@ footer span {
+@@ -514,392 +600,1368 @@ footer span {
      transform: rotate(360deg);
    }
  }
@@ -803,12 +814,12 @@ index 78ef7a60..f763ff04 100644
 -
  .light-theme .pure-menu-heading {
 -  color: #565d64;
--}
++  color: #565f89;
+ }
 -
 -.light-theme .error-card {
 -  border: 1px solid black;
-+  color: #565f89;
- }
+-}
 -
  @media (prefers-color-scheme: light) {
    .no-theme a:hover,
@@ -2172,16 +2183,10 @@ index 78ef7a60..f763ff04 100644
 +  max-width: 350px !important;
    margin-top: 10px;
 -  width: 100%;
- }
--
--.error-card summary {
--  width: 100%;
++}
 +.pure-form-stacked .pure-button-primary {
 +  margin-top: 5px;
- }
--
--.error-card pre {
--  height: 300px;
++}
 +/* Description: Download Button */
 +input,
 +select,
@@ -2275,11 +2280,19 @@ index 78ef7a60..f763ff04 100644
 +  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
  }
  
+-.error-card summary {
+-  width: 100%;
+-}
+-
+-.error-card pre {
+-  height: 300px;
+-}
+-
 -.error-issue-template {
 -  padding: 20px;
 -  background: rgba(0, 0, 0, 0.12345);
 -}
 \ No newline at end of file
 -- 
-2.52.0
+2.53.0
 
