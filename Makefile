@@ -30,6 +30,9 @@ endef
 # Targets
 init: 
 	@echo ""
+	@$(call log_info,Fetching submodules...)
+	@git submodule update --init --recursive
+	@$(call log_success,Submodules initialized)
 	@touch .env
 	@$(call log_success,Created .env file)
 	@cp .env.example .env
@@ -60,6 +63,11 @@ update:
 	@echo "Pulling latest changes for submodules..."
 	@./scripts/update.sh
 	@$(call log_success,Invidious submodules updated successfully)
+
+patch:
+	@$(call log_info,Applying patches to build directory...)
+	@./scripts/patch.sh
+	@$(call log_success,Patches applied successfully)
 
 create-patch:
 	@echo "Creating patch for Invidious..."

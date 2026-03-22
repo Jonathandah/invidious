@@ -1,15 +1,15 @@
-From 09ec427c7bf7e4ff938b3e7fec13aea8b0e8e7c9 Mon Sep 17 00:00:00 2001
-From: "jonathan.md" <github.com.starship007@passmail.net>
-Date: Mon, 2 Feb 2026 21:39:37 +0100
+From d79fa9b06bbdd34d8d4b53e34cf3ac63779e54ac Mon Sep 17 00:00:00 2001
+From: jonathan <github.com.starship007@passmail.net>
+Date: Sun, 22 Mar 2026 10:04:11 +0100
 Subject: [PATCH] apply meta args
 
 ---
- docker/Dockerfile | 30 +++++++++++++++++-------------
+ docker/Dockerfile |  7 ++++---
  src/invidious.cr  | 10 +++++-----
- 2 files changed, 22 insertions(+), 18 deletions(-)
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/docker/Dockerfile b/docker/Dockerfile
-index e2d30364..9561e64b 100644
+index e2d30364..b8caa27b 100644
 --- a/docker/Dockerfile
 +++ b/docker/Dockerfile
 @@ -26,6 +26,10 @@ RUN apk add --no-cache sqlite-static yaml-static
@@ -17,62 +17,29 @@ index e2d30364..9561e64b 100644
  
  ARG release
 +ARG CURRENT_COMMIT
-+ARG CURRENT_BRANCH  
++ARG CURRENT_BRANCH
 +ARG CURRENT_VERSION
 +ARG CURRENT_TAG
  
  WORKDIR /invidious
  COPY ./shard.yml ./shard.yml
-@@ -43,29 +47,29 @@ COPY ./assets/ ./assets/
- COPY ./videojs-dependencies.yml ./videojs-dependencies.yml
+@@ -33,9 +37,6 @@ COPY ./shard.lock ./shard.lock
+ RUN shards install --production
  
- RUN crystal spec --warnings all \
--    --link-flags "-lxml2 -llzma"    
-+  --link-flags "-lxml2 -llzma"    
+ COPY ./src/ ./src/
+-# TODO: .git folder is required for building – this is destructive.
+-# See definition of CURRENT_BRANCH, CURRENT_COMMIT and CURRENT_VERSION.
+-COPY ./.git/ ./.git/
  
- ARG OPENSSL_VERSION
- COPY --from=openssl-builder /openssl-${OPENSSL_VERSION} /openssl-${OPENSSL_VERSION}
- 
- RUN --mount=type=cache,target=/root/.cache/crystal if [[ "${release}" == 1 ]] ; then \
--        PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
--        crystal build ./src/invidious.cr \
--        --release \
--        --static --warnings all \
--        --link-flags "-lxml2 -llzma"; \
--    else \
--        PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
--        crystal build ./src/invidious.cr \
--        --static --warnings all \
--        --link-flags "-lxml2 -llzma"; \
--    fi
-+  PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
-+  crystal build ./src/invidious.cr \
-+  --release \
-+  --static --warnings all \
-+  --link-flags "-lxml2 -llzma"; \
-+  else \
-+  PKG_CONFIG_PATH=/openssl-${OPENSSL_VERSION} \
-+  crystal build ./src/invidious.cr \
-+  --static --warnings all \
-+  --link-flags "-lxml2 -llzma"; \
-+  fi
- 
- FROM alpine:3.23
- RUN apk add --no-cache rsvg-convert ttf-opensans tini tzdata
- WORKDIR /invidious
- RUN addgroup -g 1000 -S invidious && \
--    adduser -u 1000 -S invidious -G invidious
-+  adduser -u 1000 -S invidious -G invidious
- COPY --chown=invidious ./config/config.* ./config/
- RUN mv -n config/config.example.yml config/config.yml
- RUN sed -i 's/host: \(127.0.0.1\|localhost\)/host: invidious-db/' config/config.yml
+ # Required for fetching player dependencies
+ COPY ./scripts/ ./scripts/
 diff --git a/src/invidious.cr b/src/invidious.cr
-index ec518453..4113d1d6 100644
+index d7c5b80b..acb44925 100644
 --- a/src/invidious.cr
 +++ b/src/invidious.cr
-@@ -81,15 +81,15 @@ REQUEST_HEADERS_WHITELIST  = {"accept", "accept-encoding", "cache-control", "con
- RESPONSE_HEADERS_BLACKLIST = {"access-control-allow-origin", "alt-svc", "server", "cross-origin-opener-policy-report-only", "report-to", "cross-origin", "timing-allow-origin", "cross-origin-resource-policy"}
- HTTP_CHUNK_SIZE            = 10485760 # ~10MB
+@@ -70,15 +70,15 @@ end
+ HOST_URL           = make_host_url(Kemal.config)
+ MAX_ITEMS_PER_PAGE = 1500
  
 -CURRENT_BRANCH  = {{ "#{`git branch | sed -n '/* /s///p'`.strip}" }}
 -CURRENT_COMMIT  = {{ "#{`git rev-list HEAD --max-count=1 --abbrev-commit`.strip}" }}
@@ -92,5 +59,5 @@ index ec518453..4113d1d6 100644
  SOFTWARE = {
    "name"    => "invidious",
 -- 
-2.52.0
+2.53.0
 
