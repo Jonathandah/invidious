@@ -64,6 +64,11 @@ update:
 	@./scripts/update.sh
 	@$(call log_success,Invidious submodules updated successfully)
 
+patch:
+	@$(call log_info,Applying patches to build directory...)
+	@./scripts/patch.sh
+	@$(call log_success,Patches applied successfully)
+
 create-patch:
 	@echo "Creating patch for Invidious..."
 	@./scripts/create-patch.sh
